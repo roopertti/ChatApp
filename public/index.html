@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">	
+	<title>Login Page</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+	<div class="container">
+		<h2>ChatApp</h2>
+		<ul id="messages" class="list-group">
+		</ul>
+		<form class="form-inline" id="typemsg">
+			<label for="msg">Write something:</label>
+			<input type="msg" class="form-control" id="msg">
+			<button type="submit" class="btn btn-info">Send</button>
+		</form>
+		<form class="form-inline" id="username">
+			<label for="user">Username:</label>
+			<input type="user" class="form-control" id="user">
+			<button type="submit" class="btn btn-success">Change name</button>
+		</form>
+		</div>
+	</div>
+	<script>
+		var socket = io();
+		$('#typemsg').submit(function(){
+        	socket.emit('chat message', $('#msg').val());
+        	$('#msg').val('');
+        	return false;
+      	});
+      	socket.on('chat message', function(msg){
+        	$('#messages').append($('<li class="list-group-item">').text(msg));
+      	});
+      	$('#username').submit(function(){
+      		socket.emit('change name', $('#user').val());
+      		$('#user').val('');
+        	return false;
+      	});
+      	socket.on('change name', function(user){
+      		socket.emit('change name', socket.name + " changed name to " + user);
+      		socket.name = user;
+      	});
+	</script>
+</body>
+</html>

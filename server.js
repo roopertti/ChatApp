@@ -27,7 +27,14 @@ io.on('connection', function(socket){
 
 	socket.on('chat message', function(msg){
 		var currentTime = new Date();
-		io.emit('chat message', "[" + currentTime.getHours() + ":" + currentTime.getMinutes() + "] " + socket.name + " : " + msg);
+		var today = new Date();  
+		var localoffset = -(today.getTimezoneOffset()/60);
+		var destoffset = +3;
+
+		var offset = destoffset-localoffset;
+		var d = new Date( new Date().getTime() + offset * 3600 * 1000);
+
+		io.emit('chat message', "[" + d.getHours() + ":" + d.getMinutes() + "] " + socket.name + " : " + msg);
 	});
 	socket.on('change name', function(user){
 		io.emit('change name', socket.name + " changed name to " + user);

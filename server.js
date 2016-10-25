@@ -10,7 +10,7 @@ var users = 0;
 
 io.on('connection', function(socket){
 	users++;
-	socket.name = "Client" + users;
+	socket.name = "Neekeri" + users;
 	console.log(socket.name + " connected");
 	io.emit('chat message', socket.name + " connected");
 	socket.on('disconnect', function(){

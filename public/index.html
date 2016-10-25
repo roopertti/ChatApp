@@ -36,6 +36,9 @@
 			background-color: #cceeff;
 			border-radius: 10px;
 		}
+		#msg {
+			width: 300px;
+		}
 	</style>
 </head>
 <body>
@@ -57,14 +60,14 @@
 		<div class="well well-lg" id="forms">						
 		<div class="col-md-8">
 			<form class="form-inline" id="typemsg">
-			<input type="msg" class="form-control" id="msg" placeholder="Kirjota jottain">
+			<input type="msg" class="form-control" id="msg" maxlength="150" placeholder="Kirjota jottain">
 			<button type="submit" class="btn btn-info">Lähetä</button>
 		</form>
 		
 		</div>
 		<div class="col-md-4">
 			<form class="form-inline" id="username">
-			<input type="user" class="form-control" id="user" placeholder="Uus nimi">
+			<input type="user" class="form-control" id="user" maxlength="10" placeholder="Uus nimi">
 			<button type="submit" class="btn btn-success">Vaiha nimmee</button>
 		</form>
 		</div>

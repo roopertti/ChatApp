@@ -33,8 +33,12 @@ io.on('connection', function(socket){
 
 		var offset = destoffset-localoffset;
 		var d = new Date( new Date().getTime() + offset * 3600 * 1000);
+		var minutes = d.getMinutes();
+		if(minutes < 10){
+			minutes = "0" + minutes; 
+		}
 
-		io.emit('chat message', "[" + d.getHours() + ":" + d.getMinutes() + "] " + socket.name + " : " + msg);
+		io.emit('chat message', "[" + d.getHours() + ":" + minutes + "] " + socket.name + " : " + msg);
 	});
 	socket.on('change name', function(user){
 		io.emit('change name', socket.name + " changed name to " + user);

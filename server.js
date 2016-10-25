@@ -24,8 +24,10 @@ io.on('connection', function(socket){
 });
 
 io.on('connection', function(socket){
+
 	socket.on('chat message', function(msg){
-		io.emit('chat message', socket.name + " : " + msg);
+		var currentTime = new Date();
+		io.emit('chat message', "[" + currentTime.getHours() + ":" + currentTime.getMinutes() + "] " + socket.name + " : " + msg);
 	});
 	socket.on('change name', function(user){
 		io.emit('change name', socket.name + " changed name to " + user);

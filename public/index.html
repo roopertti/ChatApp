@@ -2,46 +2,115 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">	
-	<title>Hieno chatti</title>
+	<title>#J6 chat</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
 	<script src="/socket.io/socket.io.js"></script>
+	<style>
+		body {
+			font-family: 'Lato', sans-serif;
+			font-weight: 400;
+		}
+		h2 {
+		    color: white;
+		    text-shadow: 1px 1px 2px black, 0 0 25px black, 0 0 5px black;
+		}
+		#messages {
+			height: 500px;
+			overflow-y: auto;
+		}
+		form {
+		}
+		.btn-info:hover {
+			box-shadow: 1px 1px 1px grey;
+		}
+		.btn-success:hover {
+			box-shadow: 1px 1px 1px grey;
+		}
+		#forms {
+			height: 80px;
+			margin-top: 5px;
+		}
+		#scrollthis {
+			background-color: #cceeff;
+			border-radius: 10px;
+		}
+	</style>
 </head>
 <body>
 	<div class="container">
-		<h2>Hieno chatti</h2>
-		<ul id="messages" class="list-group">
-		</ul>
-		<form class="form-inline" id="typemsg">
-			<label for="msg">Write something:</label>
-			<input type="msg" class="form-control" id="msg">
-			<button type="submit" class="btn btn-info">Send</button>
+	<div class="row">
+		<h2>#J6 chat</h2>
+		<div class="col-md-8" id="scrollthis">
+			<ul id="messages" class="list-group">
+			</ul>
+		</div>
+		<div class="col-md-4">
+			<h4>Käyttäjät</h4>
+			<ul id="users" class="list-group">
+			<li class="list-group-item">Tulossa sit ku jaksaa koodata</li>
+			</ul>
+		</div>
+	</div>
+	<div class="row">
+		<div class="well well-lg" id="forms">						
+		<div class="col-md-8">
+			<form class="form-inline" id="typemsg">
+			<input type="msg" class="form-control" id="msg" placeholder="Kirjota jottain">
+			<button type="submit" class="btn btn-info">Lähetä</button>
 		</form>
-		<form class="form-inline" id="username">
-			<label for="user">Username:</label>
-			<input type="user" class="form-control" id="user">
-			<button type="submit" class="btn btn-success">Change name</button>
+		
+		</div>
+		<div class="col-md-4">
+			<form class="form-inline" id="username">
+			<input type="user" class="form-control" id="user" placeholder="Uus nimi">
+			<button type="submit" class="btn btn-success">Vaiha nimmee</button>
 		</form>
 		</div>
 	</div>
+	</div>
+	
+		
+	</div>
 	<script>
 		var socket = io();
+
 		$('#typemsg').submit(function(){
         	socket.emit('chat message', $('#msg').val());
         	$('#msg').val('');
         	return false;
       	});
+
       	socket.on('chat message', function(msg){
         	$('#messages').append($('<li class="list-group-item">').text(msg));
+        	$('#messages').animate({scrollTop: $('#messages').prop("scrollHeight")}, 100);
       	});
+
+      	socket.on('change name', function(msg){
+      		$("#messages").append($('<li class="list-group-item list-group-item-success">').text(msg));
+      		$('#messages').animate({scrollTop: $('#messages').prop("scrollHeight")}, 100);
+      	});
+
+      	socket.on('offline', function(msg){
+      		$("#messages").append($('<li class="list-group-item list-group-item-danger">').text(msg));
+      		$('#messages').animate({scrollTop: $('#messages').prop("scrollHeight")}, 100);
+      	});
+
+      	/*
+      	socket.on('clear users', function(){
+      		$('#users').empty();
+      	});
+
+      	socket.on('set userlist', function(user){
+      		$("#users").append($('<li class="list-group-item">').text(user));
+      	})
+      	*/
+
       	$('#username').submit(function(){
       		socket.emit('change name', $('#user').val());
       		$('#user').val('');
         	return false;
-      	});
-      	socket.on('change name', function(user){
-      		socket.emit('change name', socket.name + " changed name to " + user);
-      		socket.name = user;
       	});
 	</script>
 </body>

@@ -7,14 +7,18 @@ var io = require('socket.io')(http);
 app.use(express.static(path.join(__dirname, '/public')));
 
 var users = 0;
+var userList = [];
 
 io.on('connection', function(socket){
 	users++;
-	socket.name = "Kaveri" + users;
+	socket.name = "Äpärä" + users;
+	userList.push(socket);
 	console.log(socket.name + " connected");
-	io.emit('chat message', socket.name + " connected");
+	socket.broadcast.emit('change name', socket.name + " connected");
+	socket.emit('change name' ,"Tervetuloo, tämän hetkinen äpärien määrä chatissa: " + users);
 	socket.on('disconnect', function(){
-		io.emit('chat message', socket.name + " disconnected");
+		io.emit('offline', socket.name + " disconnected");
+		userList.splice(userList.indexOf(socket), 1);
 		users--;
 	});
 });
@@ -24,11 +28,14 @@ io.on('connection', function(socket){
 		io.emit('chat message', socket.name + " : " + msg);
 	});
 	socket.on('change name', function(user){
-		io.emit('chat message', socket.name + " changed name to " + user);
+		io.emit('change name', socket.name + " changed name to " + user);
 		console.log(socket.name + " changed name to " + user);
 		socket.name = user;
+
 	});
 });
+
+
 
 var port = Number(process.env.PORT || 3000);
 

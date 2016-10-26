@@ -7,7 +7,7 @@ var io = require('socket.io')(http);
 app.use(express.static(path.join(__dirname, '/public')));
 
 var userList = [];
-var randomNames = ["Donald Trump", "Ismo Laitela", "Obama", "Arnold Scwarzenegger", "Anssi", "Teppo", "Hillary Clinton", "clone man", "Jakob", "Harambe"];
+var randomNames = ["Chipmunk", "Zebra", "Panda", "Koala", "Kangaroo", "Chimpanzee", "Leopard", "Penguin", "Wombat", "Harambe"];
 
 app.get('/', function(req, res){
 	res.sendFile(__dirname, '/index.html');
@@ -15,12 +15,12 @@ app.get('/', function(req, res){
 
 io.on('connection', function(socket){
 	//New user
-	socket.name = "Spectator " + randomNames[Math.floor((Math.random() * 10))];
+	socket.name = "Random " + randomNames[Math.floor((Math.random() * 10))];
 	console.log(socket.name + " connected");
 	socket.broadcast.emit('status msg green', socket.name + " connected");
 	userList.push(socket);
 	updateUsers();
-	socket.emit('status msg green' ,"Welcome! Start by typing your name!");
+	socket.emit('status msg green' ,"Welcome! Start by typing changing your username!");
 
 	//Disconnect
 	socket.on('disconnect', function(){
@@ -55,17 +55,14 @@ io.on('connection', function(socket){
 	socket.on('status msg yellow', function(msg){
 		socket.emit('status msg yellow', msg);
 	});
-
+	
+	//Command users
 	socket.on('cmd users', function(){
 		var usertext = "Current users: ";
 		for(i=0;i<userList.length;i++){
 			usertext += userList[i].name + " ";
 		}
 		socket.emit('status msg yellow', usertext);
-	});
-
-	socket.on('cmd clone', function(){
-		io.emit('status msg yellow', "is caled clone man");
 	});
 
 	//Change username
@@ -78,6 +75,7 @@ io.on('connection', function(socket){
 		updateUsers();
 	});
 
+	//Update users
 	function updateUsers() {
 		var users = [];
 		for(i = 0; i < userList.length; i++){

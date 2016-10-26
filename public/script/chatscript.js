@@ -12,6 +12,10 @@ $('#typemsg').submit(function(){
 		$('#msg').val('');
 		return false;
 		break;
+		case "/clone": socket.emit('cmd clone');
+		$('#msg').val('');
+		return false;
+		break;
 		default: socket.emit('chat message', $('#msg').val());
 		$('#msg').val('');
 		return false;

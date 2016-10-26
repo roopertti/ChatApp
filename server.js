@@ -62,7 +62,11 @@ io.on('connection', function(socket){
 			usertext += userList[i].name + " ";
 		}
 		socket.emit('status msg yellow', usertext);
-	})
+	});
+
+	socket.on('cmd clone', function(){
+		io.emit('status msg yellow', "is caled clone man");
+	});
 
 	//Change username
 	socket.on('change name', function(user){

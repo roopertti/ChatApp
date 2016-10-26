@@ -9,13 +9,17 @@ app.use(express.static(path.join(__dirname, '/public')));
 var users = 0;
 var userList = [];
 
+app.get('/', function(req, res){
+	res.sendFile(__dirname, '/index.html');
+});
+
 io.on('connection', function(socket){
 	users++;
-	socket.name = "Äpärä" + users;
+	socket.name = "User" + users;
 	userList.push(socket);
 	console.log(socket.name + " connected");
 	socket.broadcast.emit('change name', socket.name + " connected");
-	socket.emit('change name' ,"Tervetuloo, tämän hetkinen äpärien määrä chatissa: " + users);
+	socket.emit('change name' ,"Welcome! Current users: " + users);
 	socket.on('disconnect', function(){
 		io.emit('offline', socket.name + " disconnected");
 		userList.splice(userList.indexOf(socket), 1);
@@ -44,7 +48,6 @@ io.on('connection', function(socket){
 		io.emit('change name', socket.name + " changed name to " + user);
 		console.log(socket.name + " changed name to " + user);
 		socket.name = user;
-
 	});
 });
 

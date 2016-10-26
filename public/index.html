@@ -41,7 +41,7 @@
 			border-radius: 10px;
 		}
 		#msg {
-			width: 300px;
+			width: 200px;
 		}
 	</style>
 </head>
@@ -49,11 +49,11 @@
 	<div class="container">
 	<div class="row">
 		<h2>ChatApp</h2>
-		<div class="col-md-8" id="scrollthis">
+		<div class="col-md-8 col-sm-8" id="scrollthis">
 			<ul id="messages" class="list-group">
 			</ul>
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-4 col-sm-4">
 			<h4>Users</h4>
 			<ul id="users" class="list-group">
 			</ul>
@@ -61,14 +61,14 @@
 	</div>
 	<div class="row">
 		<div class="well well-lg" id="forms">						
-		<div class="col-md-8">
+		<div class="col-md-8 col-sm-6">
 			<form class="form-inline" id="typemsg">
 			<input type="msg" class="form-control" id="msg" maxlength="150" placeholder="Write something!">
 			<button type="submit" class="btn btn-info">Send</button>
 		</form>
 		
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-4 col-sm-6">
 			<form class="form-inline" id="username">
 			<input type="user" class="form-control" id="user" maxlength="10" placeholder="Username">
 			<button type="submit" class="btn btn-success">Set name</button>

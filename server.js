@@ -20,7 +20,7 @@ io.on('connection', function(socket){
 	socket.broadcast.emit('status msg green', socket.name + " connected");
 	userList.push(socket);
 	updateUsers();
-	socket.emit('status msg green' ,"Welcome! Start by typing changing your username!");
+	socket.emit('status msg green' ,"Welcome! Start by changing your username!");
 
 	//Disconnect
 	socket.on('disconnect', function(){

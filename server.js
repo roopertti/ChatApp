@@ -21,6 +21,7 @@ io.on('connection', function(socket){
 	userList.push(socket);
 	updateUsers();
 	socket.emit('status msg green' ,"Welcome! Start by changing your username!");
+	socket.emit('set username', "Chatting as " + socket.name);
 
 	//Disconnect
 	socket.on('disconnect', function(){
@@ -65,6 +66,11 @@ io.on('connection', function(socket){
 		socket.emit('status msg yellow', usertext);
 	});
 
+	//Set username
+	socket.on('set username', function(data){
+		socket.emit('set username', data);
+	});
+
 	//Change username
 	socket.on('change name', function(user){
 		io.emit('status msg green', socket.name + " changed name to " + user);
@@ -73,6 +79,7 @@ io.on('connection', function(socket){
 		userList.splice(userList.indexOf(socket), 1);
 		userList.push(socket);
 		updateUsers();
+		socket.emit('set username', "Chatting as " + socket.name);
 	});
 
 	//Update users

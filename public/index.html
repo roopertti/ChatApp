@@ -43,6 +43,12 @@
 		#msg {
 			width: 200px;
 		}
+		#who {
+			margin-top: 5px;
+			font-size: 15px;
+			color: #5573a9;
+			text-shadow: 2px 2px 4px #3a578f; 
+		}
 	</style>
 </head>
 <body>
@@ -61,12 +67,14 @@
 	</div>
 	<div class="row">
 		<div class="well well-lg" id="forms">						
-		<div class="col-md-8 col-sm-6">
+		<div class="col-md-5 col-sm-6">
 			<form class="form-inline" id="typemsg">
 			<input type="msg" class="form-control" id="msg" maxlength="150" placeholder="Write something!">
 			<button type="submit" class="btn btn-info">Send</button>
-		</form>
-		
+		</form>		
+		</div>
+		<div class="col-md-3">
+			<p id="who"></p>
 		</div>
 		<div class="col-md-4 col-sm-6">
 			<form class="form-inline" id="username">
